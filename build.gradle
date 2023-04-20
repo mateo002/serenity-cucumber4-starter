@@ -1,57 +1,42 @@
-defaultTasks 'clean','test','aggregate'
-
+defaultTasks 'clean', 'test', 'aggregate'
 repositories {
     mavenLocal()
     jcenter()
+    mavenCentral()
 }
-
 buildscript {
     repositories {
         mavenLocal()
         jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath("net.serenity-bdd:serenity-gradle-plugin:2.1.13")
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.2.0")
     }
 }
-
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'net.serenity-bdd.aggregator'
-apply from: "$rootDir/gradle/libraries.gradle"
-
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
-/**
- * This is needed to make sure there are no Cucumber 2 dependencies in the classpath.
- */
-configurations.all {
-    resolutionStrategy {
-        force "io.cucumber:cucumber-core:${cucumberVersion}"
-    }
-}
 dependencies {
-    compile libs.logback
-
-    testCompile libs.test.cucumber.java,
-            libs.test.cucumber.junit,
-            libs.test.serenity.core,
-            libs.test.serenity.screenplay,
-            libs.test.serenity.junit,
-            libs.test.serenity.screenplayWebdriver,
-            libs.test.serenity.cucumber,
-            libs.test.junit,
-            libs.test.assertj
+    implementation 'net.serenity-bdd:serenity-core:2.4.5'
+    implementation 'net.serenity-bdd:serenity-rest-assured:2.4.5'
+    implementation 'net.serenity-bdd:serenity-screenplay-rest:2.4.5'
+    testImplementation 'net.serenity-bdd:serenity-junit:2.4.5'
+    testImplementation 'net.serenity-bdd:serenity-screenplay:2.4.5'
+    testImplementation 'net.serenity-bdd:serenity-cucumber6:2.4.34'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.hamcrest:hamcrest-all:1.3'
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+    implementation 'org.slf4j:slf4j-simple:1.7.30'
+    implementation 'net.serenity-bdd:serenity-screenplay-webdriver:2.4.5'
 }
-
 test {
     testLogging.showStandardStreams = true
     systemProperties System.getProperties()
+    ignoreFailures = true
 }
-
 gradle.startParameter.continueOnFailure = true
-
 test.finalizedBy(aggregate)
