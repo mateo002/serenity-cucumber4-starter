@@ -34,7 +34,6 @@ public class loginStepDefinitions {
         theActorCalled(this.name).attemptsTo(
                 NavigateTo.theSauceDemoGoHomePage(),
                 DoLogin.withredentials(this.email,this.clave));
-
     }
     @Then("he should have access to manage his account")
     public void he_should_have_access_to_manage_his_account() {
