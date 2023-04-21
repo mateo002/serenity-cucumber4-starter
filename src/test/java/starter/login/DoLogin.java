@@ -22,12 +22,17 @@ public class DoLogin implements Task {
         return instrumented(DoLogin.class,username,password);
     }
 
+
     @Override
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
                 Enter.theValue(username).into(loginForm.USERNAME_FIELD),
                 Enter.theValue(password).into(loginForm.PASSWORD_FIELD),
-                Click.on(loginForm.BUTTON_NAME)
+                Click.on(loginForm.BUTTON_NAME),
+                Click.on(loginForm.BUTTON_ADD1),
+                Click.on(loginForm.BUTTON_ADD2),
+                Click.on(loginForm.BUTTON_ADD3)
+
 
         );
 

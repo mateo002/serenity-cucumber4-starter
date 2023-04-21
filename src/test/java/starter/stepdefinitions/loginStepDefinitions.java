@@ -8,11 +8,18 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.actors.OnlineCast;
 import net.thucydides.core.annotations.Steps;
+import org.junit.rules.Timeout;
+import starter.dashboard.FinancialOverview;
+import starter.dashboard.OverviewData;
+import starter.dashboard.TitleAvalible;
 import starter.login.DoLogin;
 import starter.navigation.NavigateTo;
 
 
+import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorCalled;
+import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
+import static org.hamcrest.Matchers.equalTo;
 
 public class loginStepDefinitions {
 
@@ -30,12 +37,16 @@ public class loginStepDefinitions {
         this.clave = clave;
     }
     @When("he sends his valid credentials")
-    public void he_sends_his_valid_credentials() {
+    public void he_sends_his_valid_credentials() throws InterruptedException {
         theActorCalled(this.name).attemptsTo(
                 NavigateTo.theSauceDemoGoHomePage(),
                 DoLogin.withredentials(this.email,this.clave));
+        Thread.sleep(3000);
+
     }
     @Then("he should have access to manage his account")
     public void he_should_have_access_to_manage_his_account() {
+        System.out.println(OverviewData.titleAvalible().answeredBy(theActorInTheSpotlight()));
+        theActorInTheSpotlight().should(seeThat("The display products car",OverviewData.productsCar(), equalTo("3")));
     }
 }
