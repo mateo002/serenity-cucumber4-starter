@@ -40,7 +40,9 @@ public class loginStepDefinitions {
     public void he_sends_his_valid_credentials() throws InterruptedException {
         theActorCalled(this.name).attemptsTo(
                 NavigateTo.theSauceDemoGoHomePage(),
-                DoLogin.withredentials(this.email,this.clave));
+                DoLogin.withredentials(this.email,this.clave)
+
+        );
         Thread.sleep(3000);
 
     }
